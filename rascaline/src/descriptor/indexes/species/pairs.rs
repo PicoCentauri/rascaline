@@ -50,10 +50,6 @@ impl SamplesBuilder for PairSpeciesSamples {
         vec!["structure", "first", "second", "pair_id", "species_first", "species_second"]
     }
 
-    fn gradients_names(&self) -> Option<Vec<&str>> {
-        None
-    }
-
     #[time_graph::instrument(name = "PairSpeciesSamples::samples")]
     fn samples(&self, systems: &mut [Box<dyn System>]) -> Result<Indexes, Error> {
         let mut indexes = IndexesBuilder::new(self.names());

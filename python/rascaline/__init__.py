@@ -10,6 +10,7 @@ from .systems import SystemBase
 from .calculators import CalculatorBase
 from .calculators import SortedDistances
 from .calculators import SphericalExpansion
+from .calculators import SphericalExpansionByPair
 from .calculators import SoapPowerSpectrum
 
 # Get the __version__ attribute from setuptools metadata (which took it from
