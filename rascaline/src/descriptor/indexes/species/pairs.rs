@@ -98,6 +98,35 @@ impl SamplesBuilder for PairSpeciesSamples {
 
         return Ok(indexes.finish());
     }
+
+    fn gradients_for(&self, _: &mut [Box<dyn System>], samples: &Indexes) ->Result<Option<Indexes>, Error> {
+        let mut indexes = IndexesBuilder::new(vec!["sample", "atom", "spatial"]);
+
+        for (sample_i, sample) in samples.iter().enumerate() {
+            let first_atom = sample[1];
+            let second_atom = sample[2];
+            let pair_id = sample[3];
+
+            // self pairs and periodic pairs don't contribute to the gradients
+            if pair_id.i32() == 0 || first_atom == second_atom {
+                continue;
+            }
+
+            for spatial in 0..3 {
+                indexes.add(&[
+                    IndexValue::from(sample_i), first_atom, IndexValue::from(spatial)
+                ]);
+            }
+
+            for spatial in 0..3 {
+                indexes.add(&[
+                    IndexValue::from(sample_i), second_atom, IndexValue::from(spatial)
+                ]);
+            }
+        }
+
+        return Ok(Some(indexes.finish()));
+    }
 }
 
 #[cfg(test)]

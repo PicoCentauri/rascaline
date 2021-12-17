@@ -104,14 +104,30 @@ impl CalculatorBase for SphericalExpansionByPair {
         Ok(())
     }
 
-    #[time_graph::instrument(name = "SphericalExpansion::compute")]
+    #[time_graph::instrument(name = "SphericalExpansionByPair::compute")]
+    #[allow(clippy::identity_op)]
     fn compute(&mut self, systems: &mut [Box<dyn System>], descriptor: &mut Descriptor) -> Result<(), Error> {
         assert_eq!(descriptor.samples.names(), &["structure", "first", "second", "pair_id", "species_first", "species_second"]);
         assert_eq!(descriptor.features.names(), &["l", "m", "n"]);
 
         let mut spherical_harmonics = SphericalHarmonicsArray::new(self.parameters.max_angular);
+        let mut spherical_harmonics_grad = if self.compute_gradients() {
+            Some([
+                SphericalHarmonicsArray::new(self.parameters.max_angular),
+                SphericalHarmonicsArray::new(self.parameters.max_angular),
+                SphericalHarmonicsArray::new(self.parameters.max_angular)
+            ])
+        } else {
+            None
+        };
+
         let shape = (self.parameters.max_radial, self.parameters.max_angular + 1);
         let mut radial_integral = Array2::from_elem(shape, 0.0);
+        let mut radial_integral_grad = if self.compute_gradients() {
+            Some(Array2::from_elem(shape, 0.0))
+        } else {
+            None
+        };
 
         // compute the self pairs first
         let mut self_contribution = Array1::from_elem(descriptor.features.count(), 0.0);
@@ -181,9 +197,11 @@ impl CalculatorBase for SphericalExpansionByPair {
 
                 let distance = pair.distance;
                 let direction = pair.vector / distance;
-                self.radial_integral.compute(distance, radial_integral.view_mut(), None);
+                self.radial_integral.compute(
+                    distance, radial_integral.view_mut(), radial_integral_grad.as_mut().map(|a| a.view_mut())
+                );
                 self.spherical_harmonics.compute(
-                    direction, &mut spherical_harmonics, None
+                    direction, &mut spherical_harmonics, spherical_harmonics_grad.as_mut()
                 );
                 let f_cut = self.parameters.cutoff_function.compute(distance, self.parameters.cutoff);
 
@@ -200,6 +218,120 @@ impl CalculatorBase for SphericalExpansionByPair {
 
                     if let Some(sample_i) = second_sample_i {
                         descriptor.values[[sample_i, feature_i]] = m_1_pow(l) * n_l_m_value;
+                    }
+                }
+
+                if self.parameters.gradients {
+                    if first_sample_i.is_none() && second_sample_i.is_none() {
+                        continue;
+                    }
+
+                    let gradients = descriptor.gradients.as_mut().expect("missing storage for gradients");
+                    let gradients_samples = descriptor.gradients_samples.as_mut().expect("missing samples for gradients");
+
+                    let first_grad_first_i = first_sample_i.map(|sample| {
+                        gradients_samples.position(&[
+                            IndexValue::from(sample),
+                            IndexValue::from(pair.first),
+                            IndexValue::from(0),
+                        ]).expect("this pair should contribute to this gradient")
+                    });
+
+                    let first_grad_second_i = first_sample_i.map(|sample| {
+                        gradients_samples.position(&[
+                            IndexValue::from(sample),
+                            IndexValue::from(pair.second),
+                            IndexValue::from(0),
+                        ]).expect("this pair should contribute to this gradient")
+                    });
+
+                    let second_grad_first_i = second_sample_i.map(|sample| {
+                        gradients_samples.position(&[
+                            IndexValue::from(sample),
+                            IndexValue::from(pair.first),
+                            IndexValue::from(0),
+                        ]).expect("this pair should contribute to this gradient")
+                    });
+
+                    let second_grad_second_i = second_sample_i.map(|sample| {
+                        gradients_samples.position(&[
+                            IndexValue::from(sample),
+                            IndexValue::from(pair.second),
+                            IndexValue::from(0),
+                        ]).expect("this pair should contribute to this gradient")
+                    });
+
+                    // we should have some work to do
+                    debug_assert!(
+                        first_grad_first_i.is_some() ||
+                        first_grad_second_i.is_some() ||
+                        second_grad_first_i.is_some() ||
+                        second_grad_second_i.is_some()
+                    );
+
+                    let f_cut_grad = self.parameters.cutoff_function.derivative(distance, self.parameters.cutoff);
+                    let sph_gradients = spherical_harmonics_grad.as_ref().expect("missing spherical harmonics gradients");
+                    let ri_gradients = radial_integral_grad.as_ref().expect("missing radial integral gradients");
+
+                    let dr_dx = pair.vector[0] / pair.distance;
+                    let dr_dy = pair.vector[1] / pair.distance;
+                    let dr_dz = pair.vector[2] / pair.distance;
+
+                    for (feature_i, feature) in descriptor.features.iter().enumerate() {
+                        let l = feature[0].usize();
+                        let m = feature[1].isize();
+                        let n = feature[2].usize();
+
+                        let sph_value = spherical_harmonics[[l as isize, m]];
+                        let sph_grad_x = sph_gradients[0][[l as isize, m]];
+                        let sph_grad_y = sph_gradients[1][[l as isize, m]];
+                        let sph_grad_z = sph_gradients[2][[l as isize, m]];
+
+                        let ri_value = radial_integral[[n, l]];
+                        let ri_grad = ri_gradients[[n, l]];
+
+                        let grad_x = f_cut_grad * dr_dx * ri_value * sph_value
+                                    + f_cut * ri_grad * dr_dx * sph_value
+                                    + f_cut * ri_value * sph_grad_x / pair.distance;
+
+                        let grad_y = f_cut_grad * dr_dy * ri_value * sph_value
+                                    + f_cut * ri_grad * dr_dy * sph_value
+                                    + f_cut * ri_value * sph_grad_y / pair.distance;
+
+                        let grad_z = f_cut_grad * dr_dz * ri_value * sph_value
+                                    + f_cut * ri_grad * dr_dz * sph_value
+                                    + f_cut * ri_value * sph_grad_z / pair.distance;
+
+                        // we assume that the three spatial derivative are stored
+                        // one after the other
+                        if let Some(grad_i) = first_grad_second_i {
+                            gradients[[grad_i + 0, feature_i]] += grad_x;
+                            gradients[[grad_i + 1, feature_i]] += grad_y;
+                            gradients[[grad_i + 2, feature_i]] += grad_z;
+                        }
+
+                        if let Some(grad_i) = first_grad_first_i {
+                            gradients[[grad_i + 0, feature_i]] -= grad_x;
+                            gradients[[grad_i + 1, feature_i]] -= grad_y;
+                            gradients[[grad_i + 2, feature_i]] -= grad_z;
+                        }
+
+                        let parity = m_1_pow(l);
+                        let second_grad_x = - parity * grad_x;
+                        let second_grad_y = - parity * grad_y;
+                        let second_grad_z = - parity * grad_z;
+
+                        if let Some(grad_i) = second_grad_first_i {
+                            gradients[[grad_i + 0, feature_i]] += second_grad_x;
+                            gradients[[grad_i + 1, feature_i]] += second_grad_y;
+                            gradients[[grad_i + 2, feature_i]] += second_grad_z;
+                        }
+
+                        if let Some(grad_i) = second_grad_second_i {
+                            gradients[[grad_i + 0, feature_i]] -= second_grad_x;
+                            gradients[[grad_i + 1, feature_i]] -= second_grad_y;
+                            gradients[[grad_i + 2, feature_i]] -= second_grad_z;
+                        }
                     }
                 }
             }
@@ -221,5 +353,34 @@ fn m_1_pow(l: usize) -> f64 {
 
 #[cfg(test)]
 mod tests {
-    // TODO
+    use super::*;
+
+    use crate::Calculator;
+    use crate::calculators::CalculatorBase;
+    use super::super::{SphericalExpansionParameters, CutoffFunction, RadialBasis};
+    use crate::systems::test_utils::test_system;
+
+    fn parameters(gradients: bool) -> SphericalExpansionParameters {
+        SphericalExpansionParameters {
+            atomic_gaussian_width: 0.3,
+            cutoff: 3.5,
+            cutoff_function: CutoffFunction::ShiftedCosine { width: 0.5 },
+            gradients: gradients,
+            max_radial: 6,
+            max_angular: 6,
+            radial_basis: RadialBasis::Gto {}
+        }
+    }
+
+    #[test]
+    fn finite_differences() {
+        let calculator = Calculator::from(Box::new(SphericalExpansionByPair::new(
+            parameters(true)
+        ).unwrap()) as Box<dyn CalculatorBase>);
+
+        let system = test_system("water");
+        crate::calculators::tests_utils::finite_difference(calculator, system);
+    }
+
+    // TODO: more tests
 }
