@@ -30,6 +30,23 @@ struct HermitSplinePoint {
     derivative: Array2<f64>,
 }
 
+#[derive(Debug, Clone)]
+#[derive(serde::Deserialize, serde::Serialize, schemars::JsonSchema)]
+pub struct TabulatedRadialFunction {
+    pub n: usize,
+    pub l: usize,
+    pub values: Vec<f64>,
+    pub gradients: Vec<f64>,
+}
+
+/// Converts the specifications of tabulated radial *functions* into a splined radial *integral*
+/// NB: at the moment only works with Gaussian width = 0, thereby using the radial function as the integral ^_^
+pub fn compute_tabulated_ri(radial_grid: Vec<f64>, 
+    radial_functions: Vec<TabulatedRadialFunction>, 
+    parameters: super::super::SphericalExpansionParameters) -> Vec<HermitSplinePoint> {
+    todo!()    
+}
+
 /// Parameters for computing the radial integral using Hermit cubic splines
 #[derive(Debug, Clone, Copy)]
 pub struct SplinedRIParameters {
@@ -43,7 +60,7 @@ pub struct SplinedRIParameters {
 
 impl SplinedRadialIntegral {
     #[allow(clippy::float_cmp)]
-    fn new(
+    pub(crate) fn new(
         parameters: SplinedRIParameters,
         mut points: Vec<HermitSplinePoint>,
     ) -> SplinedRadialIntegral  {

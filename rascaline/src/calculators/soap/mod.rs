@@ -1,5 +1,6 @@
 mod radial_integral;
 pub use self::radial_integral::RadialIntegral;
+pub use self::radial_integral::TabulatedRadialFunction;
 pub use self::radial_integral::{GtoRadialIntegral, GtoParameters};
 pub use self::radial_integral::{HyperGeometricSphericalExpansion, HyperGeometricParameters};
 pub use self::radial_integral::{SplinedRadialIntegral, SplinedRIParameters};

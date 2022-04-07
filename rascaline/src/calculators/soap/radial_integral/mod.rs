@@ -23,4 +23,5 @@ mod gto;
 pub use self::gto::{GtoRadialIntegral, GtoParameters};
 
 mod spline;
-pub use self::spline::{SplinedRadialIntegral, SplinedRIParameters};
+pub use self::spline::{SplinedRadialIntegral, SplinedRIParameters, 
+    TabulatedRadialFunction, compute_tabulated_ri};

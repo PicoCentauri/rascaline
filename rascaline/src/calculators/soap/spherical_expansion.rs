@@ -12,8 +12,9 @@ use crate::types::StackVec;
 
 use super::super::CalculatorBase;
 use super::RadialIntegral;
+use super::radial_integral::compute_tabulated_ri;
 use super::{GtoRadialIntegral, GtoParameters};
-use super::{SplinedRadialIntegral, SplinedRIParameters};
+use super::{SplinedRadialIntegral, SplinedRIParameters, TabulatedRadialFunction};
 
 use super::{SphericalHarmonics, SphericalHarmonicsArray};
 
@@ -27,7 +28,7 @@ fn m_1_pow(l: usize) -> f64 {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 #[derive(serde::Deserialize, serde::Serialize, schemars::JsonSchema)]
 /// Radial basis that can be used in the spherical expansion
 pub enum RadialBasis {
@@ -47,6 +48,11 @@ pub enum RadialBasis {
     /// to ensure the maximal absolute error is close to the requested accuracy.
     SplinedGto {
         accuracy: f64,
+    },
+    /// Provide explicitly the tabulated radial basis
+    Tabulated {
+        radial_grid: Vec<f64>,
+        radial_functions: Vec<TabulatedRadialFunction>,
     },
 }
 
@@ -77,6 +83,17 @@ impl RadialBasis {
                     cutoff: parameters.cutoff,
                 };
                 return Ok(Box::new(SplinedRadialIntegral::with_accuracy(parameters, *accuracy, gto)?));
+            }
+            &RadialBasis::Tabulated {radial_grid, radial_functions} => {
+                let ri_spline_points = compute_tabulated_ri(radial_grid,
+                    radial_functions, parameters);
+                
+                let spline_parameters = SplinedRIParameters {
+                    max_radial: parameters.max_radial,
+                    max_angular: parameters.max_angular,
+                    cutoff: parameters.cutoff,
+                };
+                reurn Ok(Box::new(SplinedRadialIntegral::new(spline_parameters, ri_spline_points)))
             }
         };
     }
