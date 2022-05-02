@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["rascaline"] = [{"text":"impl&lt;'a&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.60.0/core/iter/traits/collect/trait.IntoIterator.html\" title=\"trait core::iter::traits::collect::IntoIterator\">IntoIterator</a> for &amp;'a <a class=\"struct\" href=\"rascaline/descriptor/struct.Indexes.html\" title=\"struct rascaline::descriptor::Indexes\">Indexes</a>","synthetic":false,"types":["rascaline::descriptor::indexes::index::Indexes"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

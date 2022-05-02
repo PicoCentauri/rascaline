@@ -1,0 +1,529 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Miscelaneous" href="misc.html" /><link rel="prev" title="Dealing with calculators" href="calculators.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>Dealing with descriptors - Rascaline 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/rascaline/rascaline/docs/static/rascaline.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Rascaline 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">Rascaline 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Core concepts</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../calculators/index.html">Implemented calculators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../calculators/spherical-expansion.html">Spherical expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../calculators/soap-power-spectrum.html">SOAP Power spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../calculators/sorted-distances.html">Sorted distance vector</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials/index.html">User guide and tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/descriptor.html">What’s in a descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/computing-soap.html">Computing SOAP features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/profiling.html">Profiling calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../python/index.html">Python API reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python/systems.html">Available system implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/calculators.html">Available Calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/descriptor.html">Descriptor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../cxx/index.html">C++ API reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cxx/systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx/calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx/descriptor.html">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cxx/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">C API reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../rust.html">Rust API reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../devdoc/index.html">Developer documentation</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../devdoc/getting-started.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devdoc/contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devdoc/new-calculator.html">Tutorial: Adding a new calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devdoc/architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devdoc/interfaces.html">Python and C interface</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="dealing-with-descriptors">
+<h1>Dealing with descriptors<a class="headerlink" href="#dealing-with-descriptors" title="Permalink to this headline">#</a></h1>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.rascal_descriptor_t">
+<span class="target" id="rascaline_8h_1ac8fcc345846432159b1ed63fcf6bd4c0"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_t</span></span></span><a class="headerlink" href="#c.rascal_descriptor_t" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Opaque type representing a <code class="docutils literal notranslate"><span class="pre">Descriptor</span></code>. </p>
+</dd></dl>
+<p>The following functions operate on <a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">rascal_descriptor_t</span></code></a>:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.rascal_descriptor" title="rascal_descriptor"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor()</span></code></a>: create new descriptors</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_free" title="rascal_descriptor_free"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_free()</span></code></a>: free allocated descriptors</p></li>
+<li><p><a class="reference internal" href="calculators.html#c.rascal_calculator_compute" title="rascal_calculator_compute"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_calculator_compute()</span></code></a>: run the actual calculation</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_values" title="rascal_descriptor_values"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_values()</span></code></a>: get the values out of the descriptor</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_gradients" title="rascal_descriptor_gradients"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_gradients()</span></code></a>: get the gradients out of the descriptor</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_indexes" title="rascal_descriptor_indexes"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_indexes()</span></code></a>: get the values of one of the indexes of the descriptor</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_densify" title="rascal_descriptor_densify"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_densify()</span></code></a>: move some indexes variables from samples to features</p></li>
+<li><p><a class="reference internal" href="#c.rascal_descriptor_densify_values" title="rascal_descriptor_densify_values"><code class="xref c c-func docutils literal notranslate"><span class="pre">rascal_descriptor_densify_values()</span></code></a>: advanced version of <code class="docutils literal notranslate"><span class="pre">rascal_descriptor_densify</span></code></p></li>
+</ul>
+<hr class="docutils"/>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor">
+<span class="target" id="rascaline_8h_1a9ae4272f965fb97b6e0674d57a492b83"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Create a new empty descriptor.</p>
+<p>All memory allocated by this function can be released using <code class="docutils literal notranslate"><span class="pre">rascal_descriptor_free</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A pointer to the newly allocated descriptor, or a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> pointer in case of error. In case of error, you can use <code class="docutils literal notranslate"><span class="pre">rascal_last_error()</span></code> to get the error message. </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_free">
+<span class="target" id="rascaline_8h_1af55aeb739ba5a1492c2c475c86de9ef5"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_free</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_free" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Free the memory associated with a <code class="docutils literal notranslate"><span class="pre">descriptor</span></code> previously created with <code class="docutils literal notranslate"><span class="pre">rascal_descriptor</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">descriptor</span></code> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, this function does nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – pointer to an existing descriptor, or <code class="docutils literal notranslate"><span class="pre">NULL</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status code of this operation. If the status is not <code class="docutils literal notranslate"><span class="pre">RASCAL_SUCCESS</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">rascal_last_error()</span></code> to get the full error message. </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_values">
+<span class="target" id="rascaline_8h_1a68487d2b572b1f69e57dd23acf4d109b"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_values</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">samples</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">features</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_values" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Get the values stored inside this descriptor after a call to <code class="docutils literal notranslate"><span class="pre">rascal_calculator_compute</span></code>.</p>
+<p>This function sets <code class="docutils literal notranslate"><span class="pre">*data</span></code> to a pointer containing the address of first element of the 2D array containing the values, <code class="docutils literal notranslate"><span class="pre">*samples</span></code> to the size of the first axis of this array and <code class="docutils literal notranslate"><span class="pre">*features</span></code> to the size of the second axis of the array. The array is stored using a row-major layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – pointer to an existing descriptor </p></li>
+<li><p><strong>data</strong> – pointer to a pointer to a double, will be set to the address of the first element in the values array </p></li>
+<li><p><strong>samples</strong> – pointer to a single integer, will be set to the first dimension of the values array </p></li>
+<li><p><strong>features</strong> – pointer to a single integer, will be set to the second dimension of the values array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status code of this operation. If the status is not <code class="docutils literal notranslate"><span class="pre">RASCAL_SUCCESS</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">rascal_last_error()</span></code> to get the full error message. </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_gradients">
+<span class="target" id="rascaline_8h_1a8a1494b7802a3135ecfbe3619472cc3b"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_gradients</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">gradient_samples</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">features</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_gradients" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Get the gradients stored inside this descriptor after a call to <code class="docutils literal notranslate"><span class="pre">rascal_calculator_compute</span></code>, if any.</p>
+<p>This function sets <code class="docutils literal notranslate"><span class="pre">*data</span></code> to to a pointer containing the address of the first element of the 2D array containing the gradients, <code class="docutils literal notranslate"><span class="pre">*gradient_samples</span></code> to the size of the first axis of this array and <code class="docutils literal notranslate"><span class="pre">*features</span></code> to the size of the second axis of the array. The array is stored using a row-major layout.</p>
+<p>If this descriptor does not contain gradient data, <code class="docutils literal notranslate"><span class="pre">*data</span></code> is set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, while <code class="docutils literal notranslate"><span class="pre">*gradient_samples</span></code> and <code class="docutils literal notranslate"><span class="pre">*features</span></code> are set to 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – pointer to an existing descriptor </p></li>
+<li><p><strong>data</strong> – pointer to a pointer to a double, will be set to the address of the first element in the gradients array </p></li>
+<li><p><strong>gradient_samples</strong> – pointer to a single integer, will be set to the first dimension of the gradients array </p></li>
+<li><p><strong>features</strong> – pointer to a single integer, will be set to the second dimension of the gradients array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status code of this operation. If the status is not <code class="docutils literal notranslate"><span class="pre">RASCAL_SUCCESS</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">rascal_last_error()</span></code> to get the full error message. </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_indexes">
+<span class="target" id="rascaline_8h_1a579982eaaf3cb5fcde59a56c6e14f4fc"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_indexes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_indexes_kind" title="rascal_indexes_kind"><span class="n"><span class="pre">rascal_indexes_kind</span></span></a><span class="w"> </span><span class="n"><span class="pre">kind</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_indexes_t" title="rascal_indexes_t"><span class="n"><span class="pre">rascal_indexes_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">indexes</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_indexes" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Get the values associated with one of the <code class="docutils literal notranslate"><span class="pre">indexes</span></code> in the given <code class="docutils literal notranslate"><span class="pre">descriptor</span></code>.</p>
+<p>This function sets <code class="docutils literal notranslate"><span class="pre">indexes-&gt;names</span></code> to to a <strong>read only</strong> array containing the names of the variables in this set of indexes; <code class="docutils literal notranslate"><span class="pre">indexes-&gt;values</span></code> to to a <strong>read only</strong> 2D array containing values taken by these variables, <code class="docutils literal notranslate"><span class="pre">indexes-&gt;count</span></code> to the number of indexes (first dimension of the array) and <code class="docutils literal notranslate"><span class="pre">indexes-&gt;values</span></code> to the size of each index (second dimension of the array). The array is stored using a row-major layout.</p>
+<p>If this <code class="docutils literal notranslate"><span class="pre">descriptor</span></code> does not contain gradient data, and <code class="docutils literal notranslate"><span class="pre">indexes</span></code> is <code class="docutils literal notranslate"><span class="pre">RASCAL_INDEXES_GRADIENTS</span></code>, all members of <code class="docutils literal notranslate"><span class="pre">indexes</span></code> are set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> or 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>descriptor</strong> – pointer to an existing descriptor </p></li>
+<li><p><strong>kind</strong> – type of indexes requested </p></li>
+<li><p><strong>indexes</strong> – pointer to <code class="docutils literal notranslate"><a class="reference internal" href="#structrascal__indexes__t"><span class="std std-ref"><span class="pre">rascal_indexes_t</span></span></a></code> that will be filled by this function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The status code of this operation. If the status is not <code class="docutils literal notranslate"><span class="pre">RASCAL_SUCCESS</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">rascal_last_error()</span></code> to get the full error message. </p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_densify">
+<span class="target" id="rascaline_8h_1ab0613d5544ada39a007433395925aa0e"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_densify</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">variables</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="n"><span class="pre">variables_count</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">requested</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="n"><span class="pre">requested_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_densify" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Make the given <code class="docutils literal notranslate"><span class="pre">descriptor</span></code> dense along the given <code class="docutils literal notranslate"><span class="pre">variables</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">variable</span></code> array should contain the name of the variables as NULL-terminated strings, and <code class="docutils literal notranslate"><span class="pre">variables_count</span></code> must be the number of variables in the array.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">requested</span></code> parameter defines which set of values taken by the <code class="docutils literal notranslate"><span class="pre">variables</span></code> should be part of the new features. If it is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, this is the set of values taken by the variables in the samples. Otherwise, it must be a pointer to the first element of a 2D row-major array with one row for each new feature block, and one column for each variable. <code class="docutils literal notranslate"><span class="pre">requested_size</span></code> must be the number of rows in this array.</p>
+<p>This function “moves” the variables from the samples to the features, filling the new features with zeros if the corresponding sample is missing.</p>
+<p>For example, take a descriptor containing two samples variables (<code class="docutils literal notranslate"><span class="pre">structure</span></code> and <code class="docutils literal notranslate"><span class="pre">species</span></code>) and two features (<code class="docutils literal notranslate"><span class="pre">n</span></code> and <code class="docutils literal notranslate"><span class="pre">l</span></code>). Starting with this descriptor:</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                      <span class="o">+---+---+---+</span>
+                      <span class="o">|</span> <span class="n">n</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>
+                      <span class="o">+---+---+---+</span>
+                      <span class="o">|</span> <span class="n">l</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+-----------+---------+===+===+===+</span>
+<span class="o">|</span> <span class="n">structure</span> <span class="o">|</span> <span class="n">species</span> <span class="o">|</span>           <span class="o">|</span>
+<span class="o">+===========+=========+</span>   <span class="o">+---+---+</span>
+<span class="o">|</span>     <span class="mi">0</span>     <span class="o">|</span>    <span class="mi">1</span>    <span class="o">|</span>   <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-----------+---------+</span>   <span class="o">+---+---+</span>
+<span class="o">|</span>     <span class="mi">0</span>     <span class="o">|</span>    <span class="mi">6</span>    <span class="o">|</span>   <span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="mi">4</span> <span class="o">|</span>
+<span class="o">+-----------+---------+</span>   <span class="o">+---+---+</span>
+<span class="o">|</span>     <span class="mi">1</span>     <span class="o">|</span>    <span class="mi">6</span>    <span class="o">|</span>   <span class="o">|</span> <span class="mi">5</span> <span class="o">|</span> <span class="mi">6</span> <span class="o">|</span>
+<span class="o">+-----------+---------+</span>   <span class="o">+---+---+</span>
+<span class="o">|</span>     <span class="mi">1</span>     <span class="o">|</span>    <span class="mi">8</span>    <span class="o">|</span>   <span class="o">|</span> <span class="mi">7</span> <span class="o">|</span> <span class="mi">8</span> <span class="o">|</span>
+<span class="o">+-----------+---------+---+---+---+</span>
+</pre></div>
+</div>
+</p>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">descriptor.densify({"species"})</span></code> will move <code class="docutils literal notranslate"><span class="pre">species</span></code> out of the samples and into the features, producing: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>            <span class="o">+---------+-------+-------+-------+</span>
+            <span class="o">|</span> <span class="n">species</span> <span class="o">|</span>   <span class="mi">1</span>   <span class="o">|</span>   <span class="mi">6</span>   <span class="o">|</span>   <span class="mi">8</span>   <span class="o">|</span>
+            <span class="o">+---------+---+---+---+---+---+---+</span>
+            <span class="o">|</span>    <span class="n">n</span>    <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>
+            <span class="o">+---------+---+---+---+---+---+---+</span>
+            <span class="o">|</span>    <span class="n">l</span>    <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+-----------+=========+===+===+===+===+===+===+</span>
+<span class="o">|</span> <span class="n">structure</span> <span class="o">|</span>
+<span class="o">+===========+</span>         <span class="o">+---+---+---+---+---+---+</span>
+<span class="o">|</span>     <span class="mi">0</span>     <span class="o">|</span>         <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">2</span> <span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span>
+<span class="o">+-----------+</span>         <span class="o">+---+---+---+---+---+---+</span>
+<span class="o">|</span>     <span class="mi">1</span>     <span class="o">|</span>         <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">5</span> <span class="o">|</span> <span class="mi">6</span> <span class="o">|</span> <span class="mi">7</span> <span class="o">|</span> <span class="mi">8</span> <span class="o">|</span>
+<span class="o">+-----------+---------+---+---+---+---+---+---+</span>
+</pre></div>
+</div>
+</p>
+<p>Notice how there is only one row/sample for each structure now, and how each value for <code class="docutils literal notranslate"><span class="pre">species</span></code> have created a full block of features. Missing values (e.g. structure 0/species 8) have been filled with 0. </p>
+</dd></dl>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.rascal_descriptor_densify_values">
+<span class="target" id="rascaline_8h_1a1e1c6b06437bd6d3a5e2325f02a79503"></span><a class="reference internal" href="misc.html#c.rascal_status_t" title="rascal_status_t"><span class="n"><span class="pre">rascal_status_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_descriptor_densify_values</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_descriptor_t" title="rascal_descriptor_t"><span class="n"><span class="pre">rascal_descriptor_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">descriptor</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">variables</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="n"><span class="pre">variables_count</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">requested</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="n"><span class="pre">requested_size</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.rascal_densified_position_t" title="rascal_densified_position_t"><span class="n"><span class="pre">rascal_densified_position_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">densified_positions</span></span>, <span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">densified_positions_count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.rascal_descriptor_densify_values" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Make this descriptor dense along the given <code class="docutils literal notranslate"><span class="pre">variables</span></code>, only modifying the values array, and not the gradients array.</p>
+<p>This function behaves similarly to <code class="docutils literal notranslate"><span class="pre">rascal_descriptor_densify</span></code>, please refer to its documentation for more information.</p>
+<p>If this descriptor contains gradients, <code class="docutils literal notranslate"><span class="pre">densified_positions</span></code> will point to an array allocated with <code class="docutils literal notranslate"><span class="pre">malloc</span></code> containing the changes made to the values, which can be used to reconstruct the change to make to the gradients. The size of this array will be stored in <code class="docutils literal notranslate"><span class="pre">densified_positions_count</span></code>.</p>
+<p>Users of this function are expected to <code class="docutils literal notranslate"><span class="pre">free</span></code> the corresponding memory when they no longer need it.</p>
+<p>This is an advanced function most users should not need to use, used to implement backward propagation without having to densify the full gradient array. </p>
+</dd></dl>
+<hr class="docutils"/>
+<dl class="c enum">
+<dt class="sig sig-object c" id="c.rascal_indexes_kind">
+<span class="target" id="rascaline_8h_1a4f18b32b4487672c1b596337a6e646c3"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_indexes_kind</span></span></span><a class="headerlink" href="#c.rascal_indexes_kind" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>The different kinds of indexes that can exist on a <code class="docutils literal notranslate"><span class="pre">rascal_descriptor_t</span></code> </p>
+<p><em>Values:</em></p>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.rascal_indexes_kind.RASCAL_INDEXES_FEATURES">
+<span class="target" id="rascaline_8h_1a4f18b32b4487672c1b596337a6e646c3ac76862e71cbda4050b94692b4dff4de3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RASCAL_INDEXES_FEATURES</span></span></span><a class="headerlink" href="#c.rascal_indexes_kind.RASCAL_INDEXES_FEATURES" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>The feature index, describing the features of the representation </p>
+</dd></dl>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.rascal_indexes_kind.RASCAL_INDEXES_SAMPLES">
+<span class="target" id="rascaline_8h_1a4f18b32b4487672c1b596337a6e646c3ada1a11bc606e1950a34048e5cc264091"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RASCAL_INDEXES_SAMPLES</span></span></span><a class="headerlink" href="#c.rascal_indexes_kind.RASCAL_INDEXES_SAMPLES" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>The samples index, describing different samples in the representation </p>
+</dd></dl>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.rascal_indexes_kind.RASCAL_INDEXES_GRADIENT_SAMPLES">
+<span class="target" id="rascaline_8h_1a4f18b32b4487672c1b596337a6e646c3a95c1fa40d93c82b21bc257925fac0e69"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RASCAL_INDEXES_GRADIENT_SAMPLES</span></span></span><a class="headerlink" href="#c.rascal_indexes_kind.RASCAL_INDEXES_GRADIENT_SAMPLES" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>The gradient samples index, describing the gradients of samples in the representation with respect to other atoms </p>
+</dd></dl>
+</dd></dl>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.rascal_indexes_t">
+<span class="target" id="structrascal__indexes__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_indexes_t</span></span></span><a class="headerlink" href="#c.rascal_indexes_t" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Indexes representing metadata associated with either samples or features in a given descriptor. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_indexes_t.names">
+<span class="target" id="structrascal__indexes__t_1ab7dde7306df9d831b7574cd0fcf00de6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">names</span></span></span><a class="headerlink" href="#c.rascal_indexes_t.names" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Names of the variables composing this set of indexes. There are <code class="docutils literal notranslate"><span class="pre">size</span></code> elements in this array, each being a NULL terminated string. </p>
+</dd></dl>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_indexes_t.values">
+<span class="target" id="structrascal__indexes__t_1a880e002cebbd356a568362261e86ede5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">values</span></span></span><a class="headerlink" href="#c.rascal_indexes_t.values" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Pointer to the first element of a 2D row-major array of 32-bit signed integer containing the values taken by the different variables in <code class="docutils literal notranslate"><span class="pre">names</span></code>. Each row has <code class="docutils literal notranslate"><span class="pre">size</span></code> elements, and there are <code class="docutils literal notranslate"><span class="pre">count</span></code> rows in total. </p>
+</dd></dl>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_indexes_t.size">
+<span class="target" id="structrascal__indexes__t_1a1ff98b6acf61c5b238c4a8a2da0c328c"></span><span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><a class="headerlink" href="#c.rascal_indexes_t.size" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Number of variables/size of a single entry in the set of indexes </p>
+</dd></dl>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_indexes_t.count">
+<span class="target" id="structrascal__indexes__t_1afae0310851bd5a461fe2faabec9f59b8"></span><span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count</span></span></span><a class="headerlink" href="#c.rascal_indexes_t.count" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>Number entries in the set of indexes </p>
+</dd></dl>
+</div>
+</dd></dl>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.rascal_densified_position_t">
+<span class="target" id="structrascal__densified__position__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rascal_densified_position_t</span></span></span><a class="headerlink" href="#c.rascal_densified_position_t" title="Permalink to this definition">#</a><br/></dt>
+<dd><p><code class="docutils literal notranslate"><a class="reference internal" href="#structrascal__densified__position__t"><span class="std std-ref"><span class="pre">rascal_densified_position_t</span></span></a></code> contains all the information to reconstruct the new position of the values associated with a single sample in the initial descriptor after a call to <code class="docutils literal notranslate"><span class="pre">rascal_descriptor_densify_values</span></code> </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_densified_position_t.new_sample">
+<span class="target" id="structrascal__densified__position__t_1a82d8c3aca2e5e5050bb270b6d47f724c"></span><span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">new_sample</span></span></span><a class="headerlink" href="#c.rascal_densified_position_t.new_sample" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>if <code class="docutils literal notranslate"><span class="pre">used</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>, index of the new sample in the value array </p>
+</dd></dl>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_densified_position_t.feature_block">
+<span class="target" id="structrascal__densified__position__t_1a8db82e8e66e0326bf8abb9a1cb832d27"></span><span class="n"><span class="pre">uintptr_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">feature_block</span></span></span><a class="headerlink" href="#c.rascal_densified_position_t.feature_block" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>if <code class="docutils literal notranslate"><span class="pre">used</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>, index of the feature block in the new array </p>
+</dd></dl>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.rascal_densified_position_t.used">
+<span class="target" id="structrascal__densified__position__t_1a5488d427c677e81d8dd3fc5035652977"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">used</span></span></span><a class="headerlink" href="#c.rascal_densified_position_t.used" title="Permalink to this definition">#</a><br/></dt>
+<dd><p>indicate whether this sample was needed to construct the new value array. This might be <code class="docutils literal notranslate"><span class="pre">false</span></code> when the value of densified variables specified by the user does not match the sample. </p>
+</dd></dl>
+</div>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="misc.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Miscelaneous</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="calculators.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Dealing with calculators</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Rascaline developers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    </body>
+</html>

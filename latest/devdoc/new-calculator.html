@@ -1,0 +1,1196 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Architecture" href="architecture.html" /><link rel="prev" title="Contribution guidelines" href="contributing.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>Tutorial: Adding a new calculator - Rascaline 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/rascaline/rascaline/docs/static/rascaline.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Rascaline 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">Rascaline 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Core concepts</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../calculators/index.html">Implemented calculators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../calculators/spherical-expansion.html">Spherical expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../calculators/soap-power-spectrum.html">SOAP Power spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../calculators/sorted-distances.html">Sorted distance vector</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">User guide and tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/descriptor.html">What’s in a descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/computing-soap.html">Computing SOAP features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/profiling.html">Profiling calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/python/index.html">Python API reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/python/systems.html">Available system implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/python/calculators.html">Available Calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/python/descriptor.html">Descriptor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/python/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/cxx/index.html">C++ API reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/cxx/systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/cxx/calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/cxx/descriptor.html">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/cxx/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/c/index.html">C API reference</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/c/systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/c/calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/c/descriptor.html">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/c/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/rust.html">Rust API reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Developer documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Tutorial: Adding a new calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html">Python and C interface</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="tutorial-adding-a-new-calculator">
+<h1>Tutorial: Adding a new calculator<a class="headerlink" href="#tutorial-adding-a-new-calculator" title="Permalink to this headline">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>So you would like to add a new <a class="reference internal" href="../calculators/index.html#calculators-list"><span class="std std-ref">calculator</span></a> to rascaline?</p>
+<p>In this tutorial, we will go over all the steps required to create a new
+calculator. For simplicity sake, the calculator we will implement will be very
+basic, keeping the focus on how different bits of the code interact with one
+another instead of complex math or performance tricks.</p>
+<p>The calculator that we will create computes an atom-centered representation,
+where each atomic environment is represented with the moments of the positions
+of the neighbors up to a maximal order. Each atomic species in the neighborhood
+will be considered separately. The resulting descriptor will represent an
+atom-centered environment <span class="math notranslate nohighlight">\(\ket{\mathcal{A}_i}\)</span> on a basis of species
+<span class="math notranslate nohighlight">\(\alpha\)</span> and moment order <span class="math notranslate nohighlight">\(k\)</span>:</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\braket{\alpha k | \mathcal{A}_i} = \frac{1}{N_\text{neighbors}} \sum_{j \in \mathcal{A}_i} r_{ij}^k \ \delta_{\alpha, \alpha_j}\]</div></div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/moments-descriptor.svg"><img alt="../_images/moments-descriptor.svg" src="../_images/moments-descriptor.svg" width="40%"/></a>
+</figure>
+<p>Throughout this tutorial, very basic knowledge of the Rust and Python
+programming languages is assumed. If you are just starting up, you may find the
+official <a class="reference external" href="https://doc.rust-lang.org/stable/book/">Rust book</a> useful; as well
+as the documentation for the <a class="reference external" href="https://doc.rust-lang.org/stable/std/">standard library</a>; and the <a class="reference external" href="../reference/rust/rascaline/index.html">API documentation</a> for
+rascaline itself.</p>
+<p>We will also assume that you have a local copy of the rascaline git repository,
+and can build the code and run the tests. If not, please look at the
+corresponding <a class="reference internal" href="getting-started.html#dev-getting-started"><span class="std std-ref">documentation</span></a>.</p>
+</section>
+<section id="the-traits-we-ll-use">
+<h2>The traits we’ll use<a class="headerlink" href="#the-traits-we-ll-use" title="Permalink to this headline">#</a></h2>
+<p>Two of the three <a class="reference internal" href="../concepts.html#core-concepts"><span class="std std-ref">core concepts</span></a> in rascaline are
+represented in the code as Rust traits: systems implements the <a class="reference external" href="../reference/rust/rascaline/systems/trait.System.html">System</a> trait,
+and calculators implement the <a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a> trait. <a class="reference external" href="../reference/rust/rascaline/struct.Descriptor.html">Descriptor</a> for their
+part are implemented as a concrete struct. Traits (also called interfaces in
+other languages) define contracts that the implementing code must follow, in the
+form of a set of function and documented behavior for these functions.
+Fulfilling this contract allow to add new systems which work with all
+calculators, already implement or not; and new calculators which can use any
+system, already implemented or not.</p>
+<p>In this tutorial, our goal is to write a new struct implementing
+<a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a>. This implementation will take as input a slice of boxed
+<a class="reference external" href="../reference/rust/rascaline/systems/trait.System.html">System</a> trait objects, and using data from those fill up a <a class="reference external" href="../reference/rust/rascaline/struct.Descriptor.html">Descriptor</a>.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">#</a></h2>
+<p>Let’s start by creating a new file in <code class="docutils literal notranslate"><span class="pre">rascaline/src/calculators/moments.rs</span></code>,
+and importing everything we’ll need. Everything in here will be explained when
+we get to using it.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="p">{</span><span class="n">System</span><span class="p">,</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">,</span><span class="w"> </span><span class="n">Error</span><span class="p">};</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">descriptor</span>::<span class="p">{</span><span class="n">SamplesBuilder</span><span class="p">,</span><span class="w"> </span><span class="n">TwoBodiesSpeciesSamples</span><span class="p">};</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">descriptor</span>::<span class="p">{</span><span class="n">Indexes</span><span class="p">,</span><span class="w"> </span><span class="n">IndexesBuilder</span><span class="p">,</span><span class="w"> </span><span class="n">IndexValue</span><span class="p">};</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">calculators</span>::<span class="n">CalculatorBase</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, we can define a struct for our new calculator <code class="docutils literal notranslate"><span class="pre">GeometricMoments</span></code>. It
+will contain three fields: <code class="docutils literal notranslate"><span class="pre">cutoff</span></code> to store the cutoff radius, <code class="docutils literal notranslate"><span class="pre">max_moment</span></code>
+to store the maximal moment to compute, and <code class="docutils literal notranslate"><span class="pre">gradients</span></code> to indicate wether we
+want to compute gradients of the descriptor or not.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Clone, Debug)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">GeometricMoments</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">cutoff</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">max_moment</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">gradients</span>: <span class="kt">bool</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We can then write a skeleton implementation for the <a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a> trait,
+leaving all function unimplemented with the <code class="docutils literal notranslate"><span class="pre">todo!()</span></code> macro.
+<code class="docutils literal notranslate"><span class="pre">CalculatorBase</span></code> is the trait defining all the functions required for a
+calculator. Users might be more familiar with the concrete struct <a class="reference external" href="../reference/rust/rascaline/struct.Calculator.html">Calculator</a>,
+which uses a <code class="docutils literal notranslate"><span class="pre">Box&lt;dyn</span> <span class="pre">CalculatorBase&gt;</span></code> (i.e. a pointer to a
+<code class="docutils literal notranslate"><span class="pre">CalculatorBase</span></code>) to provide its functionalities.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">impl</span><span class="w"> </span><span class="n">CalculatorBase</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">GeometricMoments</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">name</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">features_names</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="kt">str</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">features</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Indexes</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">samples_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">SamplesBuilder</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">compute_gradients</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">check_features</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">indexes</span>: <span class="kp">&amp;</span><span class="nc">Indexes</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">todo!</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We’ll go over these functions one by one, explaining what they do as we go.
+There are two groups of functions — used to communicate metadata about the
+calculator and the descriptor — and the main function is <code class="docutils literal notranslate"><span class="pre">compute</span></code>, which
+does the main part of the work.</p>
+<section id="calculator-metadata">
+<h3>Calculator metadata<a class="headerlink" href="#calculator-metadata" title="Permalink to this headline">#</a></h3>
+<p>The first function returning metadata about the calculator itself is <code class="docutils literal notranslate"><span class="pre">name</span></code>,
+which should return a user-facing name for the current instance of the
+descriptor. As a quick refresher on Rust, all functions return the last (and in
+this case only) expression. Here the expression creates a reference to a str
+(<code class="docutils literal notranslate"><span class="pre">&amp;str</span></code>) and then convert it to an heap-allocated <code class="docutils literal notranslate"><span class="pre">String</span></code> using the <a class="reference external" href="https://doc.rust-lang.org/std/convert/trait.Into.html">Into</a>
+trait.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">name</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="s">"geometric moments"</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, the <code class="docutils literal notranslate"><span class="pre">get_parameters</span></code> function should return the parameters used to
+create the current instance of the calculator in JSON format. To this end, we
+use <a class="reference external" href="https://serde.rs/">serde</a> and <code class="docutils literal notranslate"><span class="pre">serde_json</span></code> everywhere in rascaline, so it is a good idea to
+do the same here. Let’s start by adding the corresponding <code class="docutils literal notranslate"><span class="pre">#[derive]</span></code> to the
+definition of <code class="docutils literal notranslate"><span class="pre">GeometricMoments</span></code>, and use it to implement the function.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[derive(Clone, Debug)]</span><span class="w"></span>
+<span class="cp">#[derive(serde::Serialize, serde::Deserialize)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">GeometricMoments</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">cutoff</span>: <span class="kt">f64</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">max_moment</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">gradients</span>: <span class="kt">bool</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">serde_json</span>::<span class="n">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">"failed to serialize to JSON"</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>One interesting thing here is that <code class="docutils literal notranslate"><span class="pre">serde_json::to_string</span></code> returns a
+<code class="docutils literal notranslate"><span class="pre">Result&lt;String,</span> <span class="pre">serde::Error&gt;</span></code>, and we use <code class="docutils literal notranslate"><span class="pre">expect</span></code> to extract the string
+value. This <a class="reference external" href="https://doc.rust-lang.org/std/result/index.html">Result</a> would only contain an error if <code class="docutils literal notranslate"><span class="pre">GeometricMoments</span></code>
+contained maps with non-string keys, which is not the case here. <code class="docutils literal notranslate"><span class="pre">expect</span></code>
+allow us to indicate we don’t ever expect this function to fail, but if it were
+to return an error, then the code would immediately stop and show the given
+message (using a <a class="reference external" href="https://doc.rust-lang.org/std/macro.panic.html">panic</a>).</p>
+</section>
+<section id="descriptor-metadata">
+<h3>Descriptor metadata<a class="headerlink" href="#descriptor-metadata" title="Permalink to this headline">#</a></h3>
+<p>The next set of functions in the <a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a> trait is used to communicate
+metadata about the descriptor itself, and called by the concrete <a class="reference external" href="../reference/rust/rascaline/struct.Calculator.html">Calculator</a>
+struct when initializing and allocating the corresponding memory.</p>
+<p>First, <code class="docutils literal notranslate"><span class="pre">compute_gradients</span></code> indicates wether this calculator instance does or
+not compute gradients. In our case, this is controlled by the value of
+<code class="docutils literal notranslate"><span class="pre">self.gradients</span></code>.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute_gradients</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="bp">self</span><span class="p">.</span><span class="n">gradients</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, we have three functions which work together to define what features are
+computed by he current descriptor. <code class="docutils literal notranslate"><span class="pre">features_names</span></code> defines the name
+associated with the different indexes in the features. In our case, there is
+only one such index, giving the power <span class="math notranslate nohighlight">\(k\)</span> used to compute the moment.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">features_names</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="kt">str</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">vec!</span><span class="p">[</span><span class="s">"k"</span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">features</span></code> function creates the set of <a class="reference external" href="../reference/rust/rascaline/descriptor/struct.Indexes.html">Indexes</a> used by default by this
+calculator. This set of features will be used if the user does not pass a set of
+selected features to <a class="reference external" href="../reference/rust/rascaline/struct.Calculator.html#method.compute">Calculator::compute</a>. Here, we simply compute all moments
+up to <code class="docutils literal notranslate"><span class="pre">self.max_moment</span></code>. We build the set of indexes using an
+<a class="reference external" href="../reference/rust/rascaline/descriptor/struct.IndexesBuilder.html">IndexesBuilder</a>, and fill it with slices of <a class="reference external" href="../reference/rust/rascaline/descriptor/struct.IndexValue.html">IndexValue</a> containing only 1
+element (since we only have one index in the features).</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">features</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Indexes</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IndexesBuilder</span>::<span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">features_names</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..=</span><span class="bp">self</span><span class="p">.</span><span class="n">max_moment</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">builder</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">k</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">check_features</span></code> function will be called to verify that
+user-provided features are valid, for example to request the calculation of only
+a subset of values after feature selection. For the example, we check that the
+value of <span class="math notranslate nohighlight">\(k\)</span> is below <code class="docutils literal notranslate"><span class="pre">self.max_moment</span></code>, although we could iin theory
+accept any positive integer here.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">check_features</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">indexes</span>: <span class="kp">&amp;</span><span class="nc">Indexes</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">indexes</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">features_names</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">indexes</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="kt">usize</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">max_moment</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">Error</span>::<span class="n">InvalidParameter</span><span class="p">(</span><span class="fm">format!</span><span class="p">(</span><span class="w"></span>
+<span class="w">                </span><span class="s">"'k' is too large for this GeometricMoments calculator: \</span>
+<span class="s">                expected value below {}, got {}"</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">max_moment</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"></span>
+<span class="w">            </span><span class="p">)));</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The only remaining piece of metadata required to create a <a class="reference external" href="../reference/rust/rascaline/struct.Descriptor.html">Descriptor</a> is the
+definition of samples. Here, we could have used the same strategy as for
+features with the three functions we just wrote. However since we expect that
+multiple calculators will create the same kind of samples, we provide some
+pre-defined <a class="reference external" href="../reference/rust/rascaline/descriptor/trait.SamplesBuilder.html">SamplesBuilder</a>. For a two body representation which includes
+species information (our case here), we can use <a class="reference external" href="../reference/rust/rascaline/descriptor/struct.TwoBodiesSpeciesSamples.html">TwoBodiesSpeciesSamples</a>. We
+don’t have self contribution (pair between the center and itself), so we can use
+<code class="docutils literal notranslate"><span class="pre">TwoBodiesSpeciesSamples::new()</span></code> instead of
+<code class="docutils literal notranslate"><span class="pre">TwoBodiesSpeciesSamples::with_self_contribution()</span></code>.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">samples_builder</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">SamplesBuilder</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Box</span>::<span class="n">new</span><span class="p">(</span><span class="n">TwoBodiesSpeciesSamples</span>::<span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cutoff</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>We are now done defining the metadata associated with our <code class="docutils literal notranslate"><span class="pre">GeometricMoments</span></code>
+calculator! In the next section, we’ll go over the actual calculation of the
+representation, and how to use the functions provided by <a class="reference external" href="../reference/rust/rascaline/systems/trait.System.html">System</a>.</p>
+</section>
+<section id="the-compute-function">
+<h3>The compute function<a class="headerlink" href="#the-compute-function" title="Permalink to this headline">#</a></h3>
+<p>We are finally approaching the most important function in <a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a>,
+<code class="docutils literal notranslate"><span class="pre">compute</span></code>. This function takes as input a list of systems and a descriptor in
+which to write the results of the calculation. The function also returns a
+<a class="reference external" href="https://doc.rust-lang.org/std/result/index.html">Result</a>, to be able to indicate that an error was reached during the
+calculation.</p>
+<p>The descriptor is initialized by the concrete <a class="reference external" href="../reference/rust/rascaline/struct.Calculator.html">Calculator</a> struct, according to
+the parameters provided by the user. In particular, the descriptor will only
+contain samples and features requested by th user, meaning that the code in
+<code class="docutils literal notranslate"><span class="pre">compute</span></code> should check whether a particular sample (respectively feature) is
+present in <code class="docutils literal notranslate"><span class="pre">descriptor.samples</span></code> (resp. <code class="docutils literal notranslate"><span class="pre">descriptor.features</span></code>) before
+computing it.</p>
+<p>This being said, let’s start writing our <code class="docutils literal notranslate"><span class="pre">compute</span></code> function. We’ll defensively
+check that the descriptor samples &amp; features match what we expect from them, and
+return a unit value <code class="docutils literal notranslate"><span class="pre">()</span></code> wrapped in <code class="docutils literal notranslate"><span class="pre">Ok</span></code> at the end of the function.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">samples_builder</span><span class="p">().</span><span class="n">names</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">features_names</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// we'll write more code here</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>From here, the easiest way to implement our geometric moments descriptor is to
+iterate over the systems, and then iterate over the pairs in the system. Before
+we can get the pairs with <code class="docutils literal notranslate"><span class="pre">system.pairs</span></code>, we need to compute the neighbors
+list for our current cutoff, using <code class="docutils literal notranslate"><span class="pre">system.compute_neighbors</span></code>, which requires
+a mutable reference to the system to be able to store the list of computed pairs
+(hence the iteration using <code class="docutils literal notranslate"><span class="pre">systems.iter_mut()</span></code>).</p>
+<p>All the functions on the <a class="reference external" href="../reference/rust/rascaline/systems/trait.System.html">System</a> trait return <a class="reference external" href="https://doc.rust-lang.org/std/result/index.html">Result</a>, but in contrary to
+the <code class="docutils literal notranslate"><span class="pre">get_parameters</span></code> function above, we want to send the possible errors back
+to the user so that they can deal with them as they want. The question mark
+<code class="docutils literal notranslate"><span class="pre">?</span></code> operator does exactly that: if the value returned by the called function
+is <code class="docutils literal notranslate"><span class="pre">Err(e)</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> immediately returns <code class="docutils literal notranslate"><span class="pre">Err(e)</span></code>; and if the result is
+<code class="docutils literal notranslate"><span class="pre">Ok(v)</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> extract the <code class="docutils literal notranslate"><span class="pre">v</span></code> and the execution continues.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_system</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">systems</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">system</span><span class="p">.</span><span class="n">compute_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cutoff</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// more code to come here</span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>For each pair, we now have to check wether the corresponding sample was
+requested by the user and is present in the descriptor. To this end, we can use
+<code class="docutils literal notranslate"><span class="pre">descriptor.samples.position</span></code>, which gives us an <code class="docutils literal notranslate"><span class="pre">Option&lt;usize&gt;</span></code>. This
+option will be <code class="docutils literal notranslate"><span class="pre">None</span></code> is the sample was not found, and <code class="docutils literal notranslate"><span class="pre">Some(position)</span></code>
+where <code class="docutils literal notranslate"><span class="pre">position</span></code> is an unsigned integer if the sample was found. From the
+documentation of <a class="reference external" href="../reference/rust/rascaline/descriptor/struct.TwoBodiesSpeciesSamples.html">TwoBodiesSpeciesSamples</a>, we know that the samples contains
+four index values, corresponding to the index of the system, the index of the
+central atom in this system, the species of this central atom and the species of
+the neighboring atom.</p>
+<p>One thing to keep in mind is that a given pair can participate to two different
+samples. If two atoms <code class="docutils literal notranslate"><span class="pre">i</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span></code> are closer than the cutoff, the list of
+pairs will only contain the <code class="docutils literal notranslate"><span class="pre">i-j</span></code> pair, and not the <code class="docutils literal notranslate"><span class="pre">j-i</span></code> pair (it is a
+so-called half neighbors list). That being said, we can get the list of species
+with <code class="docutils literal notranslate"><span class="pre">system.species()</span></code> before the loop over pairs, and then construct the two
+potential samples and check for their presence. If neither of the sample was
+requested in the descriptor, then we can skip the calculation for this pair. We
+also use <code class="docutils literal notranslate"><span class="pre">system.pairs_containing</span></code> to get the number of neighbors a given
+center has.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_system</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">systems</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">system</span><span class="p">.</span><span class="n">compute_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cutoff</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// add this line</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">species</span><span class="p">()</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// sample with the first atom in the pair as center</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">first_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_system</span><span class="p">),</span><span class="w">             </span><span class="c1">// system</span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w">           </span><span class="c1">// center</span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">]),</span><span class="w">  </span><span class="c1">// species_center</span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">]),</span><span class="w"> </span><span class="c1">// species_neighbor</span>
+<span class="w">            </span><span class="p">];</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// sample with the second atom in the pair as center</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">second_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_system</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">]),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">]),</span><span class="w"></span>
+<span class="w">            </span><span class="p">];</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// get the positions of the samples. These variables will be</span>
+<span class="w">            </span><span class="c1">// `None` if the samples are not present in the descriptor, i.e.</span>
+<span class="w">            </span><span class="c1">// if the user did not request them.</span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="n">first_sample</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="n">second_sample</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// skip calculation if neither of the samples is present</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">first_sample_position</span><span class="p">.</span><span class="n">is_none</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">second_sample_position</span><span class="p">.</span><span class="n">is_none</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+
+
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Now, we can iterate over the requested features, compute the moment for the
+current pair distance, and accumulate it in the descriptor values:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_system</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">systems</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// ...</span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_feature</span><span class="p">,</span><span class="w"> </span><span class="n">feature</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="kt">usize</span><span class="p">();</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">f64</span>::<span class="n">powi</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="n">i_first_sample</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="n">i_second_sample</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The code to compute gradients is very similar, checking the positions of a given
+gradient sample before writing to it. There are now four possible contributions
+for a given pair: <span class="math notranslate nohighlight">\(\partial \ket{\chi_i} / \partial r_j\)</span>, <span class="math notranslate nohighlight">\(\partial
+\ket{\chi_j} / \partial r_i\)</span>, <span class="math notranslate nohighlight">\(\partial \ket{\chi_i} / \partial r_i\)</span> and
+<span class="math notranslate nohighlight">\(\partial \ket{\chi_j} / \partial r_j\)</span>, where <span class="math notranslate nohighlight">\(\ket{\chi_i}\)</span> is the
+representation around atom <span class="math notranslate nohighlight">\(i\)</span>. Another way to say it is that in addition
+to the gradients of the descriptor centered on <span class="math notranslate nohighlight">\(i\)</span> with respect to atom
+<span class="math notranslate nohighlight">\(j\)</span>, we also need to account for the gradient of the descriptor centered
+on atom <span class="math notranslate nohighlight">\(i\)</span> with respect to its own position.</p>
+<p>There are three samples for each contribution to the gradient (one for each
+cartesian direction), but we know that they are stored one after the other in
+the <code class="docutils literal notranslate"><span class="pre">gradients</span></code> array. We can exploit this and only look for the sample
+corresponding to <span class="math notranslate nohighlight">\(x\)</span> (which will be in a given <code class="docutils literal notranslate"><span class="pre">row</span></code>), and then store
+the gradients in the <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> directions at <code class="docutils literal notranslate"><span class="pre">row</span> <span class="pre">+</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">row</span>
+<span class="pre">+</span> <span class="pre">2</span></code>.</p>
+<p>Since they are optional, we need to use <code class="docutils literal notranslate"><span class="pre">as_ref</span></code>/<code class="docutils literal notranslate"><span class="pre">as_mut</span></code> to get references
+out of the <code class="docutils literal notranslate"><span class="pre">descriptor.gradients</span></code> and <code class="docutils literal notranslate"><span class="pre">descriptor.gradients_samples</span></code> fields.
+These fields contains <code class="docutils literal notranslate"><span class="pre">Option&lt;T&gt;</span></code> values, and we use <code class="docutils literal notranslate"><span class="pre">expect</span></code> to
+unconditionally extract the value since these fields should be set during the
+initialization by the concrete <code class="docutils literal notranslate"><span class="pre">Calculator</span></code>.</p>
+<p>Putting everything together, the gradients contributions are computed using:</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\frac{\partial}{\partial \vec{r_{j}}} \braket{\alpha k | \mathcal{A}_i} = \frac{\vec{r_{ij}}}{r_{ij}} \cdot \frac{k \ r_{ij}^{k - 1} \ \delta_{\alpha, \alpha_j}}{N_\text{neighbors}} = \vec{r_{ij}} \frac{k \ r_{ij}^{k - 2} \ \delta_{\alpha, \alpha_j}}{N_\text{neighbors}}\]</div></div>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_system</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">systems</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// ...</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// ...</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">gradients</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">gradients_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">"missing gradient samples"</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">gradients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">gradients</span><span class="p">.</span><span class="n">as_mut</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">"missing gradient storage"</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="c1">// gradient of the descriptor around `pair.first` w.r.t. `pair.second`</span>
+<span class="w">                    </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c1">// gradient of the descriptor around `pair.first` w.r.t. `pair.first`</span>
+<span class="w">                    </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="c1">// gradient of the descriptor around `pair.second` w.r.t. `pair.first`</span>
+<span class="w">                    </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="c1">// gradient of the descriptor around `pair.second` w.r.t. `pair.second`</span>
+<span class="w">                    </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_feature</span><span class="p">,</span><span class="w"> </span><span class="n">feature</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="kt">usize</span><span class="p">();</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">f64</span>::<span class="n">powi</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_self</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_self</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<details><summary><a>Here is the final implementation for the compute function</a></summary><div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">systems</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">System</span><span class="o">&gt;</span><span class="p">],</span><span class="w"> </span><span class="n">descriptor</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">Descriptor</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">samples_builder</span><span class="p">().</span><span class="n">names</span><span class="p">());</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">features_names</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_system</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">systems</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">system</span><span class="p">.</span><span class="n">compute_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cutoff</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">species</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">species</span><span class="p">()</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">pair</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs</span><span class="p">()</span><span class="o">?</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">first_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_system</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">]),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">]),</span><span class="w"></span>
+<span class="w">            </span><span class="p">];</span><span class="w"></span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">second_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_system</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">]),</span><span class="w"></span>
+<span class="w">                </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">species</span><span class="p">[</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">]),</span><span class="w"></span>
+<span class="w">            </span><span class="p">];</span><span class="w"></span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="n">first_sample</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="n">second_sample</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// skip calculation if neither of the samples is present</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">first_sample_position</span><span class="p">.</span><span class="n">is_none</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">second_sample_position</span><span class="p">.</span><span class="n">is_none</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">system</span><span class="p">.</span><span class="n">pairs_containing</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_feature</span><span class="p">,</span><span class="w"> </span><span class="n">feature</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="kt">usize</span><span class="p">();</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">f64</span>::<span class="n">powi</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="n">i_first_sample</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="n">i_second_sample</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">moment</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">gradients</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">gradients_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">"missing gradient samples"</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">gradients</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">gradients</span><span class="p">.</span><span class="n">as_mut</span><span class="p">().</span><span class="n">expect</span><span class="p">(</span><span class="s">"missing gradient storage"</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_first_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_sample_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">first</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gradients_samples</span><span class="p">.</span><span class="n">position</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i_second_sample</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">second</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">                    </span><span class="p">]);</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_feature</span><span class="p">,</span><span class="w"> </span><span class="n">feature</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="kt">usize</span><span class="p">();</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">f64</span>::<span class="n">powi</span><span class="p">(</span><span class="n">pair</span><span class="p">.</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="n">vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">grad_factor</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_gradient_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_first_self</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first_gradient_self_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_first_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_first</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_gradient_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">i_second_self</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second_gradient_self_position</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">gradients</span><span class="p">[[</span><span class="n">i_second_self</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i_feature</span><span class="p">]]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">grad_z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n_neighbors_second</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</details></section>
+<section id="registering-the-new-calculator">
+<h3>Registering the new calculator<a class="headerlink" href="#registering-the-new-calculator" title="Permalink to this headline">#</a></h3>
+<p>Now that we are done with the code for this calculator, we need to make it
+available to users. The entry point for users is the <a class="reference external" href="../reference/rust/rascaline/struct.Calculator.html">Calculator</a> struct, which
+needs to be constructed from a calculator name and hyper-parameters in JSON
+format.</p>
+<p>When the user calls <code class="docutils literal notranslate"><span class="pre">Calculator::new("calculator_name",</span> <span class="pre">"{\"json_parameters\":</span>
+<span class="pre">1}")</span></code>, rascaline looks for <code class="docutils literal notranslate"><span class="pre">"calculator_name"</span></code> in the global calculator
+registry, and tries to create an instance using the hyper-parameters. In order
+to make our calculator available to all users, we need to add it to this
+registry, in <code class="docutils literal notranslate"><span class="pre">rascaline/src/calculator.rs</span></code>. The registry looks like this:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="n">lazy_static</span>::<span class="n">lazy_static</span><span class="o">!</span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">ref</span><span class="w"> </span><span class="n">REGISTERED_CALCULATORS</span>: <span class="nc">BTreeMap</span><span class="o">&lt;&amp;'</span><span class="nb">static</span><span class="w"> </span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">CalculatorCreator</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BTreeMap</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">add_calculator</span><span class="o">!</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="s">"dummy_calculator"</span><span class="p">,</span><span class="w"> </span><span class="n">DummyCalculator</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">add_calculator</span><span class="o">!</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="s">"sorted_distances"</span><span class="p">,</span><span class="w"> </span><span class="n">SortedDistances</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">add_calculator</span><span class="o">!</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="s">"spherical_expansion"</span><span class="p">,</span><span class="w"> </span><span class="n">SphericalExpansion</span><span class="p">,</span><span class="w"> </span><span class="n">SphericalExpansionParameters</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">add_calculator</span><span class="o">!</span><span class="p">(</span><span class="n">map</span><span class="p">,</span><span class="w"> </span><span class="s">"soap_power_spectrum"</span><span class="p">,</span><span class="w"> </span><span class="n">SoapPowerSpectrum</span><span class="p">,</span><span class="w"> </span><span class="n">PowerSpectrumParameters</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">map</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">add_calculator!</span></code> is a local macro that takes three or four arguments: the
+registry itself (a <code class="docutils literal notranslate"><span class="pre">BTreeMap</span></code>), the calculator name, the struct implementing
+<a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a> and optionally a struct to use as parameters to create the
+<a class="reference external" href="../reference/rust/rascaline/calculators/trait.CalculatorBase.html">CalculatorBase</a>. In our case, we want to use the three arguments version in
+something like <code class="docutils literal notranslate"><span class="pre">add_calculator!(map,</span> <span class="pre">"geometric_moments",</span> <span class="pre">GeometricMoments);</span></code>.</p>
+<p>Additionally, you may want to add a convenience class in Python for our new
+calculator. For this, you can add a class like this to
+<code class="docutils literal notranslate"><span class="pre">python/rascaline/calculators.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GeometricMoments</span><span class="p">(</span><span class="n">CalculatorBase</span><span class="p">):</span>
+ <span class="sd">""" TODO: documentation """</span>
+
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">max_moment</span><span class="p">,</span> <span class="n">gradients</span><span class="p">):</span>
+      <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"cutoff"</span><span class="p">:</span> <span class="n">cutoff</span><span class="p">,</span>
+            <span class="s2">"max_moment"</span><span class="p">:</span> <span class="n">max_moment</span><span class="p">,</span>
+            <span class="s2">"gradients"</span><span class="p">:</span> <span class="n">gradients</span><span class="p">,</span>
+      <span class="p">}</span>
+      <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">"geometric_moments"</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+
+<span class="c1">#############################################################################</span>
+
+<span class="c1"># this allows using the calculator like this</span>
+<span class="kn">from</span> <span class="nn">rascaline</span> <span class="kn">import</span> <span class="n">GeometricMoments</span>
+<span class="n">calculator</span> <span class="o">=</span> <span class="n">GeometricMoments</span><span class="p">(</span><span class="n">cutoff</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">max_moment</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">gradients</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># instead of</span>
+<span class="kn">from</span> <span class="nn">rascaline.calculators</span> <span class="kn">import</span> <span class="n">CalculatorBase</span>
+<span class="n">calculator</span> <span class="o">=</span> <span class="n">CalculatorBase</span><span class="p">(</span>
+   <span class="s2">"geometric_moments"</span><span class="p">,</span>
+   <span class="p">{</span><span class="s2">"cutoff"</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s2">"max_moment"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">"gradients"</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>We have now finished our implementation of the geometric moments calculator! In
+the next steps, we’ll see how to write tests to ensure the calculator works and
+how to write some documentation for it.</p>
+</section>
+</section>
+<section id="testing-the-new-calculator">
+<h2>Testing the new calculator<a class="headerlink" href="#testing-the-new-calculator" title="Permalink to this headline">#</a></h2>
+<p>Before we can release our new calculator in the world, we need to make sure it
+currently behaves as intended, and that we have a way to ensure it continues to
+behave as intended as the code changes. To achieve both goals, rascaline uses
+unit tests and regression tests. Unit tests are written in the same file as the
+main part of the code, in a <code class="docutils literal notranslate"><span class="pre">tests</span></code> module, and are expected to test high
+level properties of the code. For example, unit tests allow to check that the
+computed gradient match the derivatives of the computed values; or that the
+right values are computed when the users requests a subset of samples &amp;
+features. On the other hand, regression tests check the exact values produced by
+a given calculator on a specific system; and that these values stay the same as
+we modify the code, for example when trying to optimize it. These regression
+tests live in the <code class="docutils literal notranslate"><span class="pre">rascaline/tests</span></code> folder, with one file per test.</p>
+<p>This tutorial will focus on unit tests and introduce some utilities for tests
+that should apply to all calculators. To write regression tests, you should take
+inspiration from existing tests such as <code class="docutils literal notranslate"><span class="pre">spherical-expansion</span></code> test. Each Rust
+file in <code class="docutils literal notranslate"><span class="pre">rascaline/tests</span></code> is associated with a Python file in
+<code class="docutils literal notranslate"><span class="pre">rascaline/tests/data</span></code> used to generate the values the regression test is
+checking, so you’ll need one of these as well.</p>
+<section id="testing-properties">
+<h3>Testing properties<a class="headerlink" href="#testing-properties" title="Permalink to this headline">#</a></h3>
+<p>If this is the first time you are writing tests in Rust, you should read the
+<a class="reference external" href="https://doc.rust-lang.org/stable/book/ch11-00-testing.html">corresponding chapter</a> in the official
+Rust book for a great introduction to this subject.</p>
+<p>Depending on the representation you are working with, you should write tests
+that check the fundamental properties of this representation. For example, for
+our geometric moments representation, the first moment (with order 0) should
+always be the number of neighbor of the current species over the total number of
+neighbors. A test checking this property would look like this:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[cfg(test)]</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">tests</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">super</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">Calculator</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">systems</span>::<span class="n">test_utils</span>::<span class="n">test_systems</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// small helper function to create IndexValue</span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">v</span><span class="p">(</span><span class="n">i</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">IndexValue</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">IndexValue</span>::<span class="n">from</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cp">#[test]</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">zeroth_moment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// Create a Calculator wrapping a GeometricMoments instance</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calculator</span>::<span class="n">from</span><span class="p">(</span><span class="nb">Box</span>::<span class="n">new</span><span class="p">(</span><span class="n">GeometricMoments</span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">cutoff</span>: <span class="mf">3.4</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">max_moment</span>: <span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">gradients</span>: <span class="nc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">CalculatorBase</span><span class="o">&gt;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// create a bunch of systems in a format compatible with `calculator.compute`.</span>
+<span class="w">        </span><span class="c1">// Available systems include "water" and "methane" for the corresponding</span>
+<span class="w">        </span><span class="c1">// molecules, and "CH" for a basic 2 atoms system.</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">systems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_systems</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="s">"water"</span><span class="p">,</span><span class="w"> </span><span class="s">"CH"</span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// run the calculation using default parameters</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">descriptor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Descriptor</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">calculator</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">systems</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">descriptor</span><span class="p">,</span><span class="w"> </span><span class="nb">Default</span>::<span class="n">default</span><span class="p">()).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// check the results</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="s">"k"</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">)]);</span><span class="w"></span>
+
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">names</span><span class="p">(),</span><span class="w"></span>
+<span class="w">            </span><span class="p">[</span><span class="s">"structure"</span><span class="p">,</span><span class="w"> </span><span class="s">"center"</span><span class="p">,</span><span class="w"> </span><span class="s">"species_center"</span><span class="p">,</span><span class="w"> </span><span class="s">"species_neighbor"</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// H neighbors around the oxygen atom in the water molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w">        </span><span class="c1">// structure 0</span>
+<span class="w">            </span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w">        </span><span class="c1">// center 0</span>
+<span class="w">            </span><span class="n">v</span><span class="p">(</span><span class="mi">123456</span><span class="p">),</span><span class="w">   </span><span class="c1">// species for oxygen in the test system</span>
+<span class="w">            </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w">        </span><span class="c1">// species for hydrogen in the test system</span>
+<span class="w">        </span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// H neighbors around the first H atom in the water molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// O neighbors around the first H atom in the water molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">123456</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// H neighbors around the second H atom in the water molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// O neighbors around the second H atom in the water molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">123456</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// C neighbors around the H atom in the CH molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">6</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// H neighbors around the C atom in the CH molecule</span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">descriptor</span><span class="p">.</span><span class="n">samples</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">descriptor</span><span class="p">.</span><span class="n">values</span><span class="p">[[</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]],</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">rascaline::systems::test_utils::test_systems</span></code> function provides a couple
+of very simple systems to be used for testing.</p>
+</section>
+<section id="testing-partial-calculations">
+<h3>Testing partial calculations<a class="headerlink" href="#testing-partial-calculations" title="Permalink to this headline">#</a></h3>
+<p>One properties that all calculators must respect is that computing only a subset
+of samples or feature should give the same values as computing everything.
+Rascaline provides a function (<code class="docutils literal notranslate"><span class="pre">calculators::tests_utils::compute_partial</span></code>) to
+check this for you, simplifying the tests a bit. Here is how one can use it with
+the <code class="docutils literal notranslate"><span class="pre">GeometricMoments</span></code> calculator:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#[test]</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">compute_partial</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calculator</span>::<span class="n">from</span><span class="p">(</span><span class="nb">Box</span>::<span class="n">new</span><span class="p">(</span><span class="n">GeometricMoments</span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">cutoff</span>: <span class="mf">3.4</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">max_moment</span>: <span class="mi">6</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">gradients</span>: <span class="nc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">CalculatorBase</span><span class="o">&gt;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">systems</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_systems</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="s">"water"</span><span class="p">,</span><span class="w"> </span><span class="s">"methane"</span><span class="p">]);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// build a list of samples to compute</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IndexesBuilder</span>::<span class="n">new</span><span class="p">(</span><span class="fm">vec!</span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="s">"structure"</span><span class="p">,</span><span class="w"> </span><span class="s">"center"</span><span class="p">,</span><span class="w"> </span><span class="s">"species_center"</span><span class="p">,</span><span class="w"> </span><span class="s">"species_neighbor"</span><span class="w"></span>
+<span class="w">        </span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">samples</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">samples</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">123456</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">samples</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">samples</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">samples</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// create some features. There is no need to order them in the same way</span>
+<span class="w">        </span><span class="c1">// as the default calculator</span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IndexesBuilder</span>::<span class="n">new</span><span class="p">(</span><span class="fm">vec!</span><span class="p">[</span><span class="s">"k"</span><span class="p">]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">features</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">features</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="n">features</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="p">[</span><span class="n">v</span><span class="p">(</span><span class="mi">5</span><span class="p">)]);</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">features</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// this function will check that selecting samples/features or both will</span>
+<span class="w">        </span><span class="c1">// not change the result of the calculation</span>
+<span class="w">        </span><span class="k">crate</span>::<span class="n">calculators</span>::<span class="n">tests_utils</span>::<span class="n">compute_partial</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">calculator</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">systems</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"></span>
+<span class="w">        </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="testing-gradients">
+<h3>Testing gradients<a class="headerlink" href="#testing-gradients" title="Permalink to this headline">#</a></h3>
+<p>If a calculator can compute gradients, it is a good idea to check if the
+gradient does match the finite differences definition of derivatives. Rascaline
+provides <code class="docutils literal notranslate"><span class="pre">calculators::tests_utils::finite_difference</span></code> to help check this.</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#[test]</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">finite_differences</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calculator</span>::<span class="n">from</span><span class="p">(</span><span class="nb">Box</span>::<span class="n">new</span><span class="p">(</span><span class="n">GeometricMoments</span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">cutoff</span>: <span class="mf">3.4</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">max_moment</span>: <span class="mi">7</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">gradients</span>: <span class="nc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">CalculatorBase</span><span class="o">&gt;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">system</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_system</span><span class="p">(</span><span class="s">"water"</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">crate</span>::<span class="n">calculators</span>::<span class="n">tests_utils</span>::<span class="n">finite_difference</span><span class="p">(</span><span class="n">calculator</span><span class="p">,</span><span class="w"> </span><span class="n">system</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documenting-the-new-calculator">
+<h2>Documenting the new calculator<a class="headerlink" href="#documenting-the-new-calculator" title="Permalink to this headline">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Work in progress</p>
+<p>This section of the documentation is not yet written</p>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="architecture.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Architecture</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="contributing.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Contribution guidelines</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Rascaline developers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Tutorial: Adding a new calculator</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#the-traits-we-ll-use">The traits we’ll use</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a><ul>
+<li><a class="reference internal" href="#calculator-metadata">Calculator metadata</a></li>
+<li><a class="reference internal" href="#descriptor-metadata">Descriptor metadata</a></li>
+<li><a class="reference internal" href="#the-compute-function">The compute function</a></li>
+<li><a class="reference internal" href="#registering-the-new-calculator">Registering the new calculator</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-the-new-calculator">Testing the new calculator</a><ul>
+<li><a class="reference internal" href="#testing-properties">Testing properties</a></li>
+<li><a class="reference internal" href="#testing-partial-calculations">Testing partial calculations</a></li>
+<li><a class="reference internal" href="#testing-gradients">Testing gradients</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documenting-the-new-calculator">Documenting the new calculator</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

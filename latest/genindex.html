@@ -1,0 +1,752 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/><title>Index - Rascaline 0.1.0 documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="/home/runner/work/rascaline/rascaline/docs/static/rascaline.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Rascaline 0.1.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Rascaline 0.1.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core concepts</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="calculators/index.html">Implemented calculators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="calculators/spherical-expansion.html">Spherical expansion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculators/soap-power-spectrum.html">SOAP Power spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="calculators/sorted-distances.html">Sorted distance vector</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">User guide and tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/descriptor.html">What’s in a descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/computing-soap.html">Computing SOAP features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/profiling.html">Profiling calculation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/python/index.html">Python API reference</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/python/systems.html">Available system implementation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/python/calculators.html">Available Calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/python/descriptor.html">Descriptor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/python/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/cxx/index.html">C++ API reference</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/cxx/systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/cxx/calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/cxx/descriptor.html">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/cxx/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/c/index.html">C API reference</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/c/systems.html">Defining systems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/c/calculators.html">Dealing with calculators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/c/descriptor.html">Dealing with descriptors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/c/misc.html">Miscelaneous</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/rust.html">Rust API reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="devdoc/index.html">Developer documentation</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="devdoc/getting-started.html">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devdoc/contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devdoc/new-calculator.html">Tutorial: Adding a new calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devdoc/architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="devdoc/interfaces.html">Python and C interface</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/misc.html#rascaline.Profiler.as_json">as_json() (rascaline.Profiler method)</a>
+</li>
+        <li><a href="reference/python/misc.html#rascaline.Profiler.as_short_table">as_short_table() (rascaline.Profiler method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/misc.html#rascaline.Profiler.as_table">as_table() (rascaline.Profiler method)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.systems.AseSystem">AseSystem (class in rascaline.systems)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase.c_name">c_name (rascaline.calculators.CalculatorBase property)</a>
+</li>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase">CalculatorBase (class in rascaline.calculators)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.cell">cell() (rascaline.SystemBase method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/systems.html#rascaline.systems.ChemfilesSystem">ChemfilesSystem (class in rascaline.systems)</a>
+</li>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase.compute">compute() (rascaline.calculators.CalculatorBase method)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.compute_neighbors">compute_neighbors() (rascaline.SystemBase method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/misc.html#rascaline.log.default_logging_callback">default_logging_callback() (in module rascaline.log)</a>
+</li>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.densify">densify() (rascaline.Descriptor method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.densify_values">densify_values() (rascaline.Descriptor method)</a>
+</li>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor">Descriptor (class in rascaline)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.features">features (rascaline.Descriptor property)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase.features_count">features_count() (rascaline.calculators.CalculatorBase method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.gradients">gradients (rascaline.Descriptor property)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.gradients_samples">gradients_samples (rascaline.Descriptor property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.descriptor.Indexes">Indexes (class in rascaline.descriptor)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/misc.html#rascaline.RascalError.message">message (rascaline.RascalError attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase.name">name (rascaline.calculators.CalculatorBase property)</a>
+
+        <ul>
+          <li><a href="reference/python/descriptor.html#rascaline.descriptor.Indexes.name">(rascaline.descriptor.Indexes attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.pairs">pairs() (rascaline.SystemBase method)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.pairs_containing">pairs_containing() (rascaline.SystemBase method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/calculators.html#rascaline.calculators.CalculatorBase.parameters">parameters (rascaline.calculators.CalculatorBase property)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.positions">positions() (rascaline.SystemBase method)</a>
+</li>
+        <li><a href="reference/python/misc.html#rascaline.Profiler">Profiler (class in rascaline)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/c/systems.html#c.rascal_basic_systems_free">rascal_basic_systems_free (C function)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_basic_systems_read">rascal_basic_systems_read (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculation_options_t">rascal_calculation_options_t (C struct)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculation_options_t.selected_features">rascal_calculation_options_t.selected_features (C var)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculation_options_t.selected_samples">rascal_calculation_options_t.selected_samples (C var)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculation_options_t.use_native_system">rascal_calculation_options_t.use_native_system (C var)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator">rascal_calculator (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_compute">rascal_calculator_compute (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_features_count">rascal_calculator_features_count (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_free">rascal_calculator_free (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_name">rascal_calculator_name (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_parameters">rascal_calculator_parameters (C function)</a>
+</li>
+        <li><a href="reference/c/calculators.html#c.rascal_calculator_t">rascal_calculator_t (C type)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_CHEMFILES_ERROR">RASCAL_CHEMFILES_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_densified_position_t">rascal_densified_position_t (C struct)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_densified_position_t.feature_block">rascal_densified_position_t.feature_block (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_densified_position_t.new_sample">rascal_densified_position_t.new_sample (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_densified_position_t.used">rascal_densified_position_t.used (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor">rascal_descriptor (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_densify">rascal_descriptor_densify (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_densify_values">rascal_descriptor_densify_values (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_free">rascal_descriptor_free (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_gradients">rascal_descriptor_gradients (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_indexes">rascal_descriptor_indexes (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_t">rascal_descriptor_t (C type)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_descriptor_values">rascal_descriptor_values (C function)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_kind">rascal_indexes_kind (C enum)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_kind.RASCAL_INDEXES_FEATURES">rascal_indexes_kind.RASCAL_INDEXES_FEATURES (C enumerator)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_kind.RASCAL_INDEXES_GRADIENT_SAMPLES">rascal_indexes_kind.RASCAL_INDEXES_GRADIENT_SAMPLES (C enumerator)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_kind.RASCAL_INDEXES_SAMPLES">rascal_indexes_kind.RASCAL_INDEXES_SAMPLES (C enumerator)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_t">rascal_indexes_t (C struct)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_t.count">rascal_indexes_t.count (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_t.names">rascal_indexes_t.names (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_t.size">rascal_indexes_t.size (C var)</a>
+</li>
+        <li><a href="reference/c/descriptor.html#c.rascal_indexes_t.values">rascal_indexes_t.values (C var)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_INTERNAL_ERROR">RASCAL_INTERNAL_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_INVALID_PARAMETER_ERROR">RASCAL_INVALID_PARAMETER_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_JSON_ERROR">RASCAL_JSON_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_last_error">rascal_last_error (C function)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_LOG_LEVEL_DEBUG">RASCAL_LOG_LEVEL_DEBUG (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_LOG_LEVEL_ERROR">RASCAL_LOG_LEVEL_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_LOG_LEVEL_INFO">RASCAL_LOG_LEVEL_INFO (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_LOG_LEVEL_TRACE">RASCAL_LOG_LEVEL_TRACE (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_LOG_LEVEL_WARN">RASCAL_LOG_LEVEL_WARN (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_logging_callback_t">rascal_logging_callback_t (C type)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_pair_t">rascal_pair_t (C struct)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_pair_t.distance">rascal_pair_t.distance (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_pair_t.first">rascal_pair_t.first (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_pair_t.second">rascal_pair_t.second (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_pair_t.vector">rascal_pair_t.vector (C var)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_profiling_clear">rascal_profiling_clear (C function)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_profiling_enable">rascal_profiling_enable (C function)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_profiling_get">rascal_profiling_get (C function)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_set_logging_callback">rascal_set_logging_callback (C function)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.rascal_status_t">rascal_status_t (C type)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_SUCCESS">RASCAL_SUCCESS (C macro)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_SYSTEM_ERROR">RASCAL_SYSTEM_ERROR (C macro)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t">rascal_system_t (C struct)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.cell">rascal_system_t.cell (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.compute_neighbors">rascal_system_t.compute_neighbors (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.pairs">rascal_system_t.pairs (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.pairs_containing">rascal_system_t.pairs_containing (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.positions">rascal_system_t.positions (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.size">rascal_system_t.size (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.species">rascal_system_t.species (C var)</a>
+</li>
+        <li><a href="reference/c/systems.html#c.rascal_system_t.user_data">rascal_system_t.user_data (C var)</a>
+</li>
+        <li><a href="reference/c/misc.html#c.RASCAL_UTF8_ERROR">RASCAL_UTF8_ERROR (C macro)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/misc.html#rascaline.RascalError">RascalError (class in rascaline)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4I0EN9rascaline9ArrayViewE">rascaline::ArrayView (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView9ArrayViewEP1TNSt5arrayI6size_tXL2EEEE">rascaline::ArrayView::ArrayView (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView9ArrayViewEPK1TNSt5arrayI6size_tXL2EEEE">[1]</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView9ArrayViewERK9ArrayView">[2]</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView9ArrayViewERR9ArrayView">[3]</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView9ArrayViewEv">[4]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayView4dataEv">rascaline::ArrayView::data (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline9ArrayView4dataEv">[1]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline9ArrayView8is_emptyEv">rascaline::ArrayView::is_empty (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline9ArrayViewclE6size_t6size_t">rascaline::ArrayView::operator() (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayViewaSERK9ArrayView">rascaline::ArrayView::operator= (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline9ArrayViewaSERR9ArrayView">[1]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline9ArrayView5shapeEv">rascaline::ArrayView::shape (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystemsE">rascaline::BasicSystems (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystems12BasicSystemsENSt6stringE">rascaline::BasicSystems::BasicSystems (C++ function)</a>, <a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystems12BasicSystemsERK12BasicSystems">[1]</a>, <a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystems12BasicSystemsERR12BasicSystems">[2]</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline12BasicSystems5countEv">rascaline::BasicSystems::count (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystemsaSERK12BasicSystems">rascaline::BasicSystems::operator= (C++ function)</a>, <a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystemsaSERR12BasicSystems">[1]</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline12BasicSystems7systemsEv">rascaline::BasicSystems::systems (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline18CalculationOptionsE">rascaline::CalculationOptions (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline18CalculationOptions31as_rascal_calculation_options_tEv">rascaline::CalculationOptions::as_rascal_calculation_options_t (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline18CalculationOptions17selected_featuresE">rascaline::CalculationOptions::selected_features (C++ member)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline18CalculationOptions16selected_samplesE">rascaline::CalculationOptions::selected_samples (C++ member)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline18CalculationOptions17use_native_systemE">rascaline::CalculationOptions::use_native_system (C++ member)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline10CalculatorE">rascaline::Calculator (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline10Calculator22as_rascal_calculator_tEv">rascaline::Calculator::as_rascal_calculator_t (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator22as_rascal_calculator_tEv">[1]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline10Calculator10CalculatorENSt6stringENSt6stringE">rascaline::Calculator::Calculator (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline10Calculator10CalculatorERK10Calculator">[1]</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline10Calculator10CalculatorERR10Calculator">[2]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator7computeE12BasicSystems18CalculationOptions">rascaline::Calculator::compute (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator7computeE12BasicSystemsR10Descriptor18CalculationOptions">[1]</a>, <a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator7computeENSt6vectorIP6SystemEE18CalculationOptions">[2]</a>, <a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator7computeENSt6vectorIP6SystemEER10Descriptor18CalculationOptions">[3]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator14features_countEv">rascaline::Calculator::features_count (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator4nameEv">rascaline::Calculator::name (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline10CalculatoraSERK10Calculator">rascaline::Calculator::operator= (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline10CalculatoraSERR10Calculator">[1]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline10Calculator10parametersEv">rascaline::Calculator::parameters (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10DescriptorE">rascaline::Descriptor (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor22as_rascal_descriptor_tEv">rascaline::Descriptor::as_rascal_descriptor_t (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor22as_rascal_descriptor_tEv">[1]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor7densifyENSt6vectorINSt6stringEEERK9ArrayViewI7int32_tE">rascaline::Descriptor::densify (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor14densify_valuesENSt6vectorINSt6stringEEERK9ArrayViewI7int32_tE">rascaline::Descriptor::densify_values (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor10DescriptorERK10Descriptor">rascaline::Descriptor::Descriptor (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor10DescriptorERR10Descriptor">[1]</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10Descriptor10DescriptorEv">[2]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor8featuresEv">rascaline::Descriptor::features (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor9gradientsEv">rascaline::Descriptor::gradients (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor17gradients_samplesEv">rascaline::Descriptor::gradients_samples (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10DescriptoraSERK10Descriptor">rascaline::Descriptor::operator= (C++ function)</a>, <a href="reference/cxx/descriptor.html#_CPPv4N9rascaline10DescriptoraSERR10Descriptor">[1]</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor7samplesEv">rascaline::Descriptor::samples (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline10Descriptor6valuesEv">rascaline::Descriptor::values (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline7IndexesE">rascaline::Indexes (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline7Indexes7IndexesENSt6vectorINSt6stringEEE9ArrayViewI7int32_tE">rascaline::Indexes::Indexes (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4NK9rascaline7Indexes5namesEv">rascaline::Indexes::names (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/descriptor.html#_CPPv4N9rascaline7Indexes6selectENSt6vectorI6size_tEE">rascaline::Indexes::select (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline8ProfilerE">rascaline::Profiler (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline8Profiler5clearEv">rascaline::Profiler::clear (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline8Profiler6enableEb">rascaline::Profiler::enable (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline8Profiler3getENSt6stringE">rascaline::Profiler::get (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalErrorE">rascaline::RascalError (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalErroraSERK11RascalError">rascaline::RascalError::operator= (C++ function)</a>, <a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalErroraSERR11RascalError">[1]</a>
+</li>
+        <li><a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalError11RascalErrorENSt6stringE">rascaline::RascalError::RascalError (C++ function)</a>, <a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalError11RascalErrorERK11RascalError">[1]</a>, <a href="reference/cxx/misc.html#_CPPv4N9rascaline11RascalError11RascalErrorERR11RascalError">[2]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexesE">rascaline::SelectedIndexes (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4I0EN9rascaline15SelectedIndexes3addEv8Iterator8Iterator">rascaline::SelectedIndexes::add (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexes3addERKNSt6vectorI7int32_tEE">[1]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline15SelectedIndexes5countEv">rascaline::SelectedIndexes::count (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline15SelectedIndexes4dataEv">rascaline::SelectedIndexes::data (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline15SelectedIndexes5namesEv">rascaline::SelectedIndexes::names (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexesaSERK15SelectedIndexes">rascaline::SelectedIndexes::operator= (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexesaSERR15SelectedIndexes">[1]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexes15SelectedIndexesENSt6vectorINSt6stringEEE">rascaline::SelectedIndexes::SelectedIndexes (C++ function)</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexes15SelectedIndexesERK15SelectedIndexes">[1]</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexes15SelectedIndexesERR15SelectedIndexes">[2]</a>, <a href="reference/cxx/calculators.html#_CPPv4N9rascaline15SelectedIndexes15SelectedIndexesEv">[3]</a>
+</li>
+        <li><a href="reference/cxx/calculators.html#_CPPv4NK9rascaline15SelectedIndexes4sizeEv">rascaline::SelectedIndexes::size (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6SystemE">rascaline::System (C++ class)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6System18as_rascal_system_tEv">rascaline::System::as_rascal_system_t (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System4cellEv">rascaline::System::cell (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6System10CellMatrixE">rascaline::System::CellMatrix (C++ type)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6System17compute_neighborsEd">rascaline::System::compute_neighbors (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6SystemaSERK6System">rascaline::System::operator= (C++ function)</a>, <a href="reference/cxx/systems.html#_CPPv4N9rascaline6SystemaSERR6System">[1]</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System5pairsEv">rascaline::System::pairs (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System16pairs_containingE9uintptr_t">rascaline::System::pairs_containing (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System9positionsEv">rascaline::System::positions (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System4sizeEv">rascaline::System::size (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4NK9rascaline6System7speciesEv">rascaline::System::species (C++ function)</a>
+</li>
+        <li><a href="reference/cxx/systems.html#_CPPv4N9rascaline6System6SystemERK6System">rascaline::System::System (C++ function)</a>, <a href="reference/cxx/systems.html#_CPPv4N9rascaline6System6SystemERR6System">[1]</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.samples">samples (rascaline.Descriptor property)</a>
+</li>
+        <li><a href="reference/python/misc.html#rascaline.set_logging_callback">set_logging_callback() (in module rascaline)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.size">size() (rascaline.SystemBase method)</a>
+</li>
+        <li><a href="reference/python/calculators.html#rascaline.SoapPowerSpectrum">SoapPowerSpectrum (class in rascaline)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/calculators.html#rascaline.SortedDistances">SortedDistances (class in rascaline)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase.species">species() (rascaline.SystemBase method)</a>
+</li>
+        <li><a href="reference/python/calculators.html#rascaline.SphericalExpansion">SphericalExpansion (class in rascaline)</a>
+</li>
+        <li><a href="reference/python/misc.html#rascaline.RascalError.status">status (rascaline.RascalError attribute)</a>
+</li>
+        <li><a href="reference/python/systems.html#rascaline.SystemBase">SystemBase (class in rascaline)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/descriptor.html#rascaline.Descriptor.values">values (rascaline.Descriptor property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/python/systems.html#rascaline.systems.wrap_system">wrap_system() (in module rascaline.systems)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Rascaline developers
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/tabs.js"></script>
+    </body>
+</html>
